@@ -1,0 +1,474 @@
+PAGE 1
+
+JavaScript‎ EXP 2: Adaptive and Responsive UI Design Develop a Flutter
+application for a fruit shopping store that displays fruit details and
+adjusts its appearance according to the screen size. Requirements: 1.​
+Create a screen with the AppBar title “Fruit Shop”. 2.​ Display the
+following fruits with their images and prices: ○​ Apple – ₹180.00 ○​
+Orange – ₹100.00 ○​ Mango – ₹70.00 ○​ Pomegranate – ₹250.00 3.​ Display
+each fruit inside a Card widget. 4.​ Arrange the fruit image, name,
+price, and Buy Now button horizontally. 5.​ Use LayoutBuilder to identify
+the available screen width. 6.​ Set the fruit image size to: ○​ 80 × 80
+pixels when the screen width is below 600 pixels. ○​ 120 × 120 pixels
+when the screen width is 600 pixels or above. 7.​ Use ListView to display
+all four fruit items. 8.​ Use a separate method to create and display
+each fruit card. Code: import ‘package:flutter/material.dart’;
+
+void main() { runApp(const MyApp()); }
+
+class MyApp extends StatelessWidget { const MyApp({super.key});
+
+@override Widget build(BuildContext context) { return MaterialApp(
+debugShowCheckedModeBanner: false, home: const HomePage(), ); } }
+
+class HomePage extends StatelessWidget { const HomePage({super.key});
+
+======================================================================
+
+PAGE 2
+
+@override Widget build(BuildContext context) { return Scaffold( appBar:
+AppBar( title: const Text(‘Fruit Shop’), centerTitle: true, ),
+
+      body: LayoutBuilder( 
+        builder: (context, constraints) { 
+          double size = constraints.maxWidth < 600 ? 80 : 120; 
+
+          return ListView( 
+            children: [ 
+              fruitCard('Apple', '₹180.00', 'assets/apple.jpg', size), 
+              fruitCard('Orange', '₹100.00', 'assets/orange.jpg', size), 
+              fruitCard('Mango', '₹70.00', 'assets/mango.jpg', size), 
+              fruitCard('Pomegranate', '₹250.00', 'assets/pomeg.jpg', size), 
+            ], 
+          ); 
+        }, 
+      ), 
+    ); 
+
+}
+
+Widget fruitCard(String name, String price, String image, double size) {
+return Card( child: Row( children: [ Image.asset( image, width: size,
+height: size, fit: BoxFit.cover, ),
+
+          const SizedBox(width: 15), 
+
+          Column( 
+            crossAxisAlignment: CrossAxisAlignment.start, 
+            children: [ 
+              Text(name), 
+              Text(price), 
+              ElevatedButton(
+
+======================================================================
+
+PAGE 3
+
+JavaScript‎ onPressed: () {}, child: const Text(‘Buy Now’), ), ], ), ],
+), ); } }
+
+EXP 3: Add Interactivity to App – Input and Forms (Stateful Widget) ​
+Develop a Budget Calculator app to help users manage their monthly
+expenses. Requirements: 1.​ Use a StatefulWidget for the budget
+calculator screen. 2.​ The app should allow user to enter the following
+data: o​ Monthly Income (must be positive) o​ Rent/EMI o​ Food Expenses o​
+Transport Expenses o​ Other Expenses 3.​ Add a button labeled “Calculate
+Balance”. 4.​ On button press: o​ Validate inputs. o​ Calculate Remaining
+Balance as Balance=Income−(Rent+Food+Transport+Others)
+
+5.​ Display the calculated Remaining Balance below the button. 6.​ If the
+balance is negative, show it in red color with warning (e.g., “You are
+overspending!”). 7.​ If the balance is positive, show it in green color
+with success message.
+
+Code: import ‘package:flutter/material.dart’;
+
+void main() { runApp(const MaterialApp(
+
+======================================================================
+
+PAGE 4
+
+debugShowCheckedModeBanner: false, home: BudgetPage(), )); }
+
+class BudgetPage extends StatefulWidget { const BudgetPage({super.key});
+
+@override State createState() => _BudgetPageState(); }
+
+class _BudgetPageState extends State { final income =
+TextEditingController(); final rent = TextEditingController(); final
+food = TextEditingController(); final transport =
+TextEditingController(); final others = TextEditingController();
+
+double balance = 0; String message = ’’;
+
+void calculate() { double i = double.tryParse(income.text) ?? 0; double
+r = double.tryParse(rent.text) ?? 0; double f =
+double.tryParse(food.text) ?? 0; double t =
+double.tryParse(transport.text) ?? 0; double o =
+double.tryParse(others.text) ?? 0;
+
+    if (income.text.isEmpty || i <= 0 || 
+        rent.text.isEmpty || food.text.isEmpty || 
+        transport.text.isEmpty || others.text.isEmpty || 
+        r < 0 || f < 0 || t < 0 || o < 0) { 
+      setState(() { 
+        message = 'Enter valid amounts!'; 
+      }); 
+      return; 
+    } 
+
+    setState(() { 
+      balance = i - (r + f + t + o); 
+
+      message = balance < 0 
+          ? 'You are overspending!' 
+          : 'You have money remaining!';
+
+======================================================================
+
+PAGE 5
+
+}); }
+
+@override Widget build(BuildContext context) { return Scaffold( appBar:
+AppBar(title: const Text(‘Budget Calculator’)),
+
+      body: Padding( 
+        padding: const EdgeInsets.all(15), 
+
+        child: ListView( 
+          children: [ 
+            TextField( 
+              controller: income, 
+              decoration: const InputDecoration(labelText: 'Monthly Income'), 
+              keyboardType: TextInputType.number, 
+            ), 
+            TextField( 
+              controller: rent, 
+              decoration: const InputDecoration(labelText: 'Rent / EMI'), 
+              keyboardType: TextInputType.number, 
+            ), 
+            TextField( 
+              controller: food, 
+              decoration: const InputDecoration(labelText: 'Food Expenses'), 
+              keyboardType: TextInputType.number, 
+            ), 
+            TextField( 
+              controller: transport, 
+              decoration: const InputDecoration(labelText: 'Transport Expenses'), 
+              keyboardType: TextInputType.number, 
+            ), 
+            TextField( 
+              controller: others, 
+              decoration: const InputDecoration(labelText: 'Other Expenses'), 
+              keyboardType: TextInputType.number, 
+            ), 
+
+            const SizedBox(height: 20), 
+
+            ElevatedButton( 
+              onPressed: calculate, 
+              child: const Text('Calculate Balance'), 
+            ),
+
+======================================================================
+
+PAGE 6
+
+const SizedBox(height: 20),
+
+            Text( 
+              'Remaining Balance: ₹$balance', 
+              style: TextStyle( 
+                fontSize: 20, 
+                color: balance < 0 ? Colors.red : Colors.green, 
+              ), 
+            ), 
+
+            Text( 
+              message, 
+              style: TextStyle( 
+                color: message == 'You are overspending!' 
+                    ? Colors.red 
+                    : Colors.green, 
+              ), 
+            ), 
+          ], 
+        ), 
+      ), 
+    ); 
+
+} }
+
+EXP 4: Utilize the Assets and media A photography website wants to
+develop a Flutter application to showcase different photographs in an
+attractive gallery layout. Develop a Flutter application to display a
+collection of photographs using local image assets. Requirements: 1.​
+Create a screen with the AppBar title “Photo Gallery”. 2.​ Store at least
+four images in the application’s assets folder: ○​ Nature ○​ Flowers ○​
+Beach ○​ Mountains 3.​ Configure the image assets in the pubspec.yaml
+file. 4.​ Display the images using the Image.asset() widget.
+
+======================================================================
+
+PAGE 7
+
+JavaScript‎ 5.​ Arrange the images in two columns using GridView.count. 6.​
+Display each image inside a Card widget. 7.​ Display the corresponding
+image title below each photograph. 8.​ Use BoxFit.cover to fit the images
+within the available space. Expected Output: The application should
+display four photographs in a two-column gallery layout, with their
+respective titles below each image.​ Code: import
+‘package:flutter/material.dart’;
+
+void main() { runApp(const MyApp()); }
+
+class MyApp extends StatelessWidget { const MyApp({super.key});
+
+@override Widget build(BuildContext context) { return const MaterialApp(
+debugShowCheckedModeBanner: false, home: GalleryPage(), ); } }
+
+class GalleryPage extends StatelessWidget { const
+GalleryPage({super.key});
+
+@override Widget build(BuildContext context) { return Scaffold( appBar:
+AppBar( title: const Text(‘Photo Gallery’), backgroundColor:
+Colors.blue, ),
+
+      body: GridView.count( 
+        crossAxisCount: 2, 
+        children: [ 
+          Card( 
+            child: Column( 
+              children: [ 
+                Expanded(
+
+======================================================================
+
+PAGE 8
+
+child: Image.asset( ‘assets/nature.jpg’, fit: BoxFit.cover, ), ), const
+Text(‘Nature’), ], ), ),
+
+          Card( 
+            child: Column( 
+              children: [ 
+                Expanded( 
+                  child: Image.asset( 
+                    'assets/flower.jpg', 
+                    fit: BoxFit.cover, 
+                  ), 
+                ), 
+                const Text('Flowers'), 
+              ], 
+            ), 
+          ), 
+
+          Card( 
+            child: Column( 
+              children: [ 
+                Expanded( 
+                  child: Image.asset( 
+                    'assets/beach.jpg', 
+                    fit: BoxFit.cover, 
+                  ), 
+                ), 
+                const Text('Beach'), 
+              ], 
+            ), 
+          ), 
+
+          Card( 
+            child: Column( 
+              children: [ 
+                Expanded( 
+                  child: Image.asset( 
+                    'assets/mountain.jpg', 
+                    fit: BoxFit.cover,
+
+======================================================================
+
+PAGE 9
+
+), ), const Text(‘Mountains’), ], ), ), ], ), ); } }
+
+EXP 5: Working with Navigation and Routing
+
+Develop a Student Attendance Calculator app to help students check their
+attendance percentage and examination eligibility. Requirements: 1. The
+app should have two screens: Input Screen and Attendance Result Screen.
+2. Screen 1 – Input Screen: Allow the student to enter the following
+details: ●​ Student Name ●​ Register Number ●​ Total Classes Conducted ●​
+Classes Attended 3. Add a button labelled “View Attendance”. 4. On
+button press: ●​ Pass the student details to the second screen using
+named route arguments. ●​ Navigate to the result screen using
+Navigator.pushNamed(). 5. Screen 2 – Attendance Result Screen: ●​ Receive
+the student details using ModalRoute.of(context). ●​ Calculate the
+Attendance Percentage as:
+
+𝐴𝑡𝑡𝑒𝑛𝑑𝑎𝑛𝑐𝑒𝑃𝑒𝑟𝑐𝑒𝑛𝑡𝑎𝑔𝑒= 𝐶𝑙𝑎𝑠𝑠𝑒𝑠𝐴𝑡𝑡𝑒𝑛𝑑𝑒𝑑 𝑇𝑜𝑡𝑎𝑙𝐶𝑙𝑎𝑠𝑠𝑒𝑠𝐶𝑜𝑛𝑑𝑢𝑐𝑡𝑒𝑑× 100 6.
+Display the following details using a Card and ListTile: ●​ Student Name
+●​ Register Number ●​ Total Classes Conducted ●​ Classes Attended ●​
+Attendance Percentage 7. If the attendance percentage is 75% or above,
+display “Eligible for Examination” in green.
+
+======================================================================
+
+PAGE 10
+
+JavaScript‎ JavaScript‎ 8. If the attendance percentage is below 75%,
+display “Not Eligible for Examination” in red. 9. Use Navigator.pop() to
+return to the previous screen.
+
+Code:​ In main.dart:
+
+import ‘package:flutter/material.dart’; import ‘home_screen.dart’;
+import ‘second_screen.dart’;
+
+void main() { runApp(MyApp()); }
+
+class MyApp extends StatelessWidget { @override Widget
+build(BuildContext context) { return MaterialApp( title: ‘Attendance
+App’, initialRoute: ‘/’, routes: { ‘/’: (context) => HomeScreen(),
+‘/second’: (context) => SecondScreen(), }, ); } }
+
+In home_screen.dart – Input Screen
+import ‘package:flutter/material.dart’;
+
+class HomeScreen extends StatelessWidget { final name =
+TextEditingController(); final reg = TextEditingController(); final
+total = TextEditingController(); final attended =
+TextEditingController();
+
+@override Widget build(BuildContext context) { return Scaffold( appBar:
+AppBar(title: const Text(‘Student Attendance’)),
+
+======================================================================
+
+PAGE 11
+
+body: Padding( padding: const EdgeInsets.all(20), child: Column(
+children: [ TextField( controller: name, decoration: const
+InputDecoration(labelText: ‘Name’), ), TextField( controller: reg,
+decoration: const InputDecoration(labelText: ‘Register Number’), ),
+TextField( controller: total, decoration: const
+InputDecoration(labelText: ‘Total Classes’), ), TextField( controller:
+attended, decoration: const InputDecoration(labelText: ‘Classes
+Attended’), ), ElevatedButton( onPressed: () { Navigator.pushNamed(
+context, ‘/second’, arguments: [ name.text, reg.text, total.text,
+attended.text, ], ); }, child: const Text(‘View Attendance’), ), ], ),
+), ); } }
+
+======================================================================
+
+PAGE 12
+
+JavaScript‎ In second_screen.dart – Attendance Result Screen import
+‘package:flutter/material.dart’;
+
+class SecondScreen extends StatelessWidget { @override Widget
+build(BuildContext context) { final data =
+ModalRoute.of(context)!.settings.arguments as List; double percentage =
+(int.parse(data[3]) / int.parse(data[2])) * 100;
+
+    return Scaffold( 
+      appBar: AppBar(title: Text('Attendance Result')), 
+      body: Center( 
+        child: Card( 
+          margin: EdgeInsets.all(20), 
+          child: ListTile( 
+            leading: Icon(Icons.person), 
+            title: Text('Name: ${data[0]}'), 
+            subtitle: Text( 
+              'Register No: ${data[1]}\n' 
+              'Total Classes: ${data[2]}\n' 
+              'Classes Attended: ${data[3]}\n' 
+              'Attendance: ${percentage.toStringAsFixed(2)}%\n' 
+              '${percentage >= 75 ? "Eligible for Examination" : "Not Eligible for 
+
+Examination”}’, ), ), ), ), ); } }
+
+EXP 6: Integrate Animations and Transition
+
+Develop a Student Profile App using Flutter to demonstrate animations
+and transitions. Requirements: 1.​ Create a screen displaying a student
+profile card. 2.​ Display the following details: ○​ Student Name ○​
+Register Number
+
+======================================================================
+
+PAGE 13
+
+JavaScript‎ ○​ Department ○​ Year of Study 3.​ Add a button labelled “Show
+Profile”. 4.​ When the button is pressed: ○​ Display the student profile
+card with a smooth animation. ○​ Apply a simple fade or slide transition
+effect. 5.​ Add a button labelled “Hide Profile” to hide the profile card
+with an animation. 6.​ Use suitable Flutter animation and transition
+widgets to create a simple and interactive user experience. Expected
+Output: The student profile card should smoothly appear when the user
+clicks “Show Profile” and disappear when the user clicks “Hide Profile”.
+Code: Code: import ‘package:flutter/material.dart’;
+
+void main() { runApp(const MaterialApp( debugShowCheckedModeBanner:
+false, home: ProfilePage(), )); }
+
+class ProfilePage extends StatefulWidget { const
+ProfilePage({super.key});
+
+@override State createState() => _ProfilePageState(); }
+
+class _ProfilePageState extends State { bool show = false;
+
+@override Widget build(BuildContext context) { return Scaffold( appBar:
+AppBar(title: const Text(‘Student Profile’)),
+
+      body: Column( 
+        mainAxisAlignment: MainAxisAlignment.center,
+
+======================================================================
+
+PAGE 14
+
+children: [ AnimatedOpacity( opacity: show ? 1 : 0, duration: const
+Duration(seconds: 2),
+
+            child: Card( 
+              child: ListTile( 
+                title: const Text('Name: Anu'), 
+                subtitle: const Text( 
+                  'Register No: 12345\n' 
+                  'Department: AI & ML\n' 
+                  'Year: Third Year', 
+                ), 
+              ), 
+            ), 
+          ), 
+
+          ElevatedButton( 
+            onPressed: () { 
+              setState(() { 
+                show = true; 
+              }); 
+            }, 
+            child: const Text('Show Profile'), 
+          ), 
+
+          ElevatedButton( 
+            onPressed: () { 
+              setState(() { 
+                show = false; 
+              }); 
+            }, 
+            child: const Text('Hide Profile'), 
+          ), 
+        ], 
+      ), 
+    ); 
+
+} }
+
+======================================================================
+
+PAGE 15
